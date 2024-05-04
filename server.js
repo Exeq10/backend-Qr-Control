@@ -15,7 +15,7 @@ app.use(cors())
 app.use(json());
 
 app.use(cors({
-  origin: 'http://localhost:3000', 
+  origin: 'http://localhost:5173', 
   methods: ['GET', 'POST','PATCH','DELETE'], 
   allowedHeaders: ['Content-Type'], 
 }));
