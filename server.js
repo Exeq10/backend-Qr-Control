@@ -14,7 +14,7 @@ const app = express();
 app.use(cors())
 app.use(json());
 
-dbconnect()
+
 
 // Usar el router para gestionar las rutas relacionadas con el escaneo
 app.use(employeesRouter );
@@ -22,9 +22,17 @@ app.use(routerRegistro );
 
 
 
-
-
 const PORT = process.env.PORT || 3000;
-app.listen(PORT ,() => {
+
+const startServer = async ()  => {
+
+  await dbconnect()
+
+
+   app.listen(PORT ,() => {
   console.log(`Servidor en ejecución en el puerto ${PORT}`);
 });
+}
+
+
+startServer()
