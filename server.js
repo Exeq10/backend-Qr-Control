@@ -11,14 +11,14 @@ import {routerRegistro} from './src/routers/registroRouter.js';
 const app = express();
 
 // Middleware para analizar el cuerpo de las solicitudes
-app.use(cors())
-app.use(json());
 
 app.use(cors({
   origin: 'http://localhost:5173', 
   methods: ['GET', 'POST','PATCH','DELETE'], 
   allowedHeaders: ['Content-Type'], 
 }));
+app.use(json());
+
 
 // Usar el router para gestionar las rutas relacionadas con el escaneo
 app.use(employeesRouter );
