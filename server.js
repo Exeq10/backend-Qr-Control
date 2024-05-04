@@ -14,7 +14,11 @@ const app = express();
 app.use(cors())
 app.use(json());
 
-
+app.use(cors({
+  origin: 'http://localhost:3000', 
+  methods: ['GET', 'POST','PATCH','DELETE'], 
+  allowedHeaders: ['Content-Type'], 
+}));
 
 // Usar el router para gestionar las rutas relacionadas con el escaneo
 app.use(employeesRouter );
