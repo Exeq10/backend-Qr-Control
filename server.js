@@ -10,7 +10,7 @@ const app = express();
 
 // Middleware para analizar el cuerpo de las solicitudes
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://192.168.164.214:5173'],
+  origin: ['http://localhost:5173', 'http://192.168.164.214:5173','https://controlqrvique.netlify.app],
   methods: ['GET', 'POST','PATCH','DELETE'], 
   allowedHeaders: ['Content-Type'], 
 }));
