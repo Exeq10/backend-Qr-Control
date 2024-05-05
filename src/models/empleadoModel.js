@@ -16,7 +16,7 @@ const empleadoSchema = new mongoose.Schema({
     trim:true
   },
   key_secret: String,
-  pic_url:String,
+  pic_url :String,
   totalHoras: { type: Number, default: 0 }, // Total de horas acumuladas del empleado
   timestamp: { type: Date, default: Date.now },
 });
