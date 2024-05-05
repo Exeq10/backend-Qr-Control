@@ -7,6 +7,7 @@ const createUser = async (req, res) => {
     apellido: req.body.apellido,
     documento: req.body.documento,
     key_secret: req.body.key_secret,
+    pic_url:req.body.pic_url
   });
 
   try {
