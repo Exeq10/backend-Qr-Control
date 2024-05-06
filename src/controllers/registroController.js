@@ -38,9 +38,9 @@ const guardarRegistro = async (req, res) => {
         (new Date() - ultimaDescanso.marcaTiempo) / (60 * 1000)
       );
 
-      if (diferenciaMinutos < 1) {
+      if (diferenciaMinutos < 30) {
         return res.status(400).json({
-          error: "Debe tomar un descanso de al menos 1 minutos antes de marcar salida",
+          error: "Debe tomar un descanso de al menos 30 minutos antes de marcar salida",
         });
       }
 
@@ -67,9 +67,9 @@ const guardarRegistro = async (req, res) => {
         (new Date() - ultimaEntrada.marcaTiempo) / (60 * 1000)
       );
 
-      if (diferenciaMinutos < 1) { // Verificar que hayan pasado al menos 1 minuto desde la entrada
+      if (diferenciaMinutos < 30) { // Verificar que hayan pasado al menos 1 minuto desde la entrada
         return res.status(400).json({
-          error: "Debe pasar al menos 1 minuto desde la entrada para marcar un descanso",
+          error: "Debe pasar al menos 30 minutos desde la entrada para marcar un descanso",
         });
       }
 
