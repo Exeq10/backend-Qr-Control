@@ -46,7 +46,7 @@ const guardarRegistro = async (req, res) => {
 
       // Actualizar el total de horas acumuladas del empleado
       const empleado = await Empleado.findById(usuarioId);
-      empleado.totalHoras += diferenciaMinutos / 60; // Convertir minutos a horas
+      empleado.totalHoras += parseFloat((diferenciaMinutos / 60).toFixed(3)); // Convertir minutos a horas y limitar a 3 decimales
       await empleado.save();
     }
 
