@@ -38,9 +38,9 @@ const guardarRegistro = async (req, res) => {
         (new Date() - ultimaDescanso.marcaTiempo) / (60 * 1000)
       );
 
-      if (diferenciaMinutos < 30) {
+      if (diferenciaMinutos < 1) {
         return res.status(400).json({
-          error: "Debe tomar un descanso de al menos 30 minutos antes de marcar salida",
+          error: "Debe tomar un descanso de al menos 1 minutos antes de marcar salida",
         });
       }
 
@@ -50,7 +50,7 @@ const guardarRegistro = async (req, res) => {
       await empleado.save();
     }
 
-    // Si es una marca de descanso, verificar que haya pasado al menos 4 horas desde la entrada
+    // Si es una marca de descanso, verificar que haya pasado al menos 1 minuto desde la entrada y 4 horas desde la última entrada
     if (tipo === "descanso") {
       const ultimaEntrada = await Registro.findOne({
         usuario: usuarioId,
@@ -63,26 +63,36 @@ const guardarRegistro = async (req, res) => {
         });
       }
 
-      const diferenciaHoras = Math.abs(
-        (new Date() - ultimaEntrada.marcaTiempo) / (60 * 60 * 1000)
+      const diferenciaMinutos = Math.abs(
+        (new Date() - ultimaEntrada.marcaTiempo) / (60 * 1000)
       );
 
-      if (diferenciaHoras < 4) { // Verificar que hayan pasado al menos 4 horas desde la entrada
+      if (diferenciaMinutos < 30) { // Verificar que hayan pasado al menos 30 minutos desde la entrada
         return res.status(400).json({
-          error: "Debe pasar al menos 4 horas desde la entrada para marcar un descanso",
+          error: "Debe pasar al menos 30 minutos desde la entrada para marcar un descanso",
         });
       }
 
-      // Crear y guardar el nuevo registro
-      const nuevoRegistro = new Registro({
-        usuario: usuarioId,
-        tipo: tipo,
-        marcaTiempo: Date.now(),
-      });
+      const diferenciaHorasEntrada = Math.abs(
+        (new Date() - ultimaEntrada.marcaTiempo) / (60 * 60 * 1000)
+      );
 
-      const registroGuardado = await nuevoRegistro.save();
-      res.status(201).json(registroGuardado);
+      if (diferenciaHorasEntrada < 4) { // Verificar que hayan pasado al menos 4 horas desde la última entrada
+        return res.status(400).json({
+          error: "Debe pasar al menos 4 horas desde la última entrada para marcar un descanso",
+        });
+      }
     }
+
+    // Crear y guardar el nuevo registro
+    const nuevoRegistro = new Registro({
+      usuario: usuarioId,
+      tipo: tipo,
+      marcaTiempo: Date.now(),
+    });
+
+    const registroGuardado = await nuevoRegistro.save();
+    res.status(201).json(registroGuardado);
   } catch (error) {
     console.error("Error al guardar el registro:", error);
     res.status(500).json({ error: "Error al guardar el registro" });
