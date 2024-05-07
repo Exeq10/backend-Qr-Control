@@ -50,7 +50,7 @@ const guardarRegistro = async (req, res) => {
       await empleado.save();
     }
 
-    // Si es una marca de descanso, verificar que haya pasado al menos 1 minuto desde la entrada
+    // Si es una marca de descanso, verificar que haya pasado al menos 4 horas desde la entrada
     if (tipo === "descanso") {
       const ultimaEntrada = await Registro.findOne({
         usuario: usuarioId,
@@ -63,37 +63,26 @@ const guardarRegistro = async (req, res) => {
         });
       }
 
-      const diferenciaMinutos = Math.abs(
-        (new Date() - ultimaEntrada.marcaTiempo) / (60 * 1000)
-      );
-
-      if (diferenciaMinutos < 30) { // Verificar que hayan pasado al menos 1 minuto desde la entrada
-        return res.status(400).json({
-          error: "Debe pasar al menos 30 minutos desde la entrada para marcar un descanso",
-        });
-      }
-
-      // Verificar que no haya pasado más de 16 horas desde la última entrada
       const diferenciaHoras = Math.abs(
         (new Date() - ultimaEntrada.marcaTiempo) / (60 * 60 * 1000)
       );
 
-      if (diferenciaHoras > 16) {
+      if (diferenciaHoras < 4) { // Verificar que hayan pasado al menos 4 horas desde la entrada
         return res.status(400).json({
-          error: "No se puede marcar un descanso después de 16 horas desde la última entrada",
+          error: "Debe pasar al menos 4 horas desde la entrada para marcar un descanso",
         });
       }
+
+      // Crear y guardar el nuevo registro
+      const nuevoRegistro = new Registro({
+        usuario: usuarioId,
+        tipo: tipo,
+        marcaTiempo: Date.now(),
+      });
+
+      const registroGuardado = await nuevoRegistro.save();
+      res.status(201).json(registroGuardado);
     }
-
-    // Crear y guardar el nuevo registro
-    const nuevoRegistro = new Registro({
-      usuario: usuarioId,
-      tipo: tipo,
-      marcaTiempo: Date.now(),
-    });
-
-    const registroGuardado = await nuevoRegistro.save();
-    res.status(201).json(registroGuardado);
   } catch (error) {
     console.error("Error al guardar el registro:", error);
     res.status(500).json({ error: "Error al guardar el registro" });
