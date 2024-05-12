@@ -1,7 +1,6 @@
 // registroModel.js
 import mongoose from "mongoose";
 
-import mongoose from 'mongoose';
 
 const registroSchema = new mongoose.Schema({
   usuario: {
