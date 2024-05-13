@@ -1,19 +1,26 @@
 // Importa los módulos necesarios
-import express, { json } from 'express'
+import express, { json } from "express";
 import cors from "cors";
-import { dbconnect } from './src/db/db.js';
-import { employeesRouter } from './src/routers/employesRouter.js';
-import { routerRegistro } from './src/routers/registroRouter.js';
+import { dbconnect } from "./src/db/db.js";
+import { employeesRouter } from "./src/routers/employesRouter.js";
+import { routerRegistro } from "./src/routers/registroRouter.js";
+import { adminRouter } from "./src/routers/adminRouter.js";
 
 // Crea la instancia de la aplicación Express
 const app = express();
 
 // Middleware para analizar el cuerpo de las solicitudes
-app.use(cors({
-  origin: ['http://localhost:5173', 'http://192.168.164.214:5173','https://controlqrvique.netlify.app'],
-  methods: ['GET', 'POST','PATCH','DELETE'], 
-  allowedHeaders: ['Content-Type'], 
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "http://192.168.164.214:5173",
+      "https://controlqrvique.netlify.app",
+    ],
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type"],
+  })
+);
 app.use(json());
 
 // Middleware para registrar las solicitudes entrantes
@@ -28,6 +35,9 @@ app.use(employeesRouter);
 // Usar el router para gestionar las rutas relacionadas con el registro
 app.use(routerRegistro);
 
+// Usar el router para gestionar las rutas relacionadas con el admin
+app.use(adminRouter);
+
 // Puerto en el que se ejecutará el servidor
 const PORT = process.env.PORT || 3000;
 
@@ -40,7 +50,7 @@ const startServer = async () => {
   app.listen(PORT, () => {
     console.log(`Servidor en ejecución en el puerto ${PORT}`);
   });
-}
+};
 
 // Iniciar el servidor
 startServer();
