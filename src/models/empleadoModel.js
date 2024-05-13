@@ -1,6 +1,6 @@
 // empleadoModel.js
 import mongoose from "mongoose";
-import { type } from "requests";
+
 
 
 const empleadoSchema = new mongoose.Schema({
