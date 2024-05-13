@@ -1,5 +1,6 @@
 // empleadoModel.js
 import mongoose from "mongoose";
+import { type } from "requests";
 
 
 const empleadoSchema = new mongoose.Schema({
@@ -15,6 +16,22 @@ const empleadoSchema = new mongoose.Schema({
     type:String,
     trim:true
   },
+
+  direccion:{
+    type:String,
+    trim:true,
+  },
+
+  p_salud:{
+    type:String,
+    trim:true
+  },
+
+  tel:{
+    type:String,
+    trim:true
+  },
+
   key_secret: String,
   pic_url :String,
   totalHoras: { type: Number, default: 0 }, // Total de horas acumuladas del empleado
