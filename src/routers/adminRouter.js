@@ -1,5 +1,5 @@
 import express from 'express'
-import { createAdmin, getAdminByNombreDocumento } from '../controllers/adminController'
+import { createAdmin, getAdminByNombreDocumento } from '../controllers/adminController.js'
 
 
 
